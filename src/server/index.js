@@ -19,7 +19,6 @@ const app = express()
 const sheet = new ServerStyleSheet()
 
 app.use(cors())
-
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
@@ -56,13 +55,6 @@ app.post('/uploadTemplateString/:page', function (req,res, next) {
 })
 
 
-
-
-
-
-
-//TODO tutaj zrobić 3 różne fetche do displayera dla homepage/categorypage/productPage
-// i w zależności od przeakzanego typu i nazwy szablonu wyszukać w folderze np home  a po nazwie konkretny szablon w którym będzie plik App.js który należt wysłać
 
 
 

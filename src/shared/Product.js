@@ -1,9 +1,8 @@
-
 import React from 'react';
 
-const App = () => {
+const App = (props) => {
     return (
-        <div>siemanko product</div>
+        <div>{props.product? props.product: 'lololo'}</div>
       );
 }
  

@@ -1,47 +1,57 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////         IMPORTS                  //////////////////////////////////////////
+///////////////////////////            IMPORTS               //////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 import React, { Component, useState, useEffect } from 'react';
 import faker from 'faker';
 import { StaticRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { GlassMagnifier } from 'react-image-magnifiers';
 import styled from 'styled-components';
+import { createMemoryHistory } from 'history';
 import {AiOutlineFacebook} from 'react-icons/ai';
 import {AiOutlineInstagram} from 'react-icons/ai';
 import {AiOutlineYoutube} from 'react-icons/ai';
 import {AiOutlineLinkedin} from 'react-icons/ai';
 import {AiOutlineGooglePlus} from 'react-icons/ai';
+import {FiTruck} from 'react-icons/fi';
+import {FiUserCheck} from 'react-icons/fi';
+import {FiCheckSquare} from 'react-icons/fi';
+import {FiTool} from 'react-icons/fi';
 import {AiOutlineArrowRight} from 'react-icons/ai';
+import {AiFillTag} from 'react-icons/ai';
 import {FiShoppingCart} from 'react-icons/fi';
 import {FiMenu} from 'react-icons/fi';
 import {FiSearch} from 'react-icons/fi';
-import { createMemoryHistory } from 'history';
+import {FaRegStar} from 'react-icons/fa';
 const history = createMemoryHistory();
 
 
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////         MAIN APP                 //////////////////////////////////////////
+///////////////////////////             MAIN                 //////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 const StyledMainBody = styled.div`
   width: 100%;
   min-height: 100vh;
-  background-color: #fff;
+  background-color: #dfdfdf;
   position: absolute;
   top: 0;
   left: 0;
   display: flex;
   justify-content: center;
   font-family: 'Inter', sans-serif; 
+  flex-direction: column;
+  align-items: center;
+  
 `;
 const StyledMainWrapper = styled.div`
   width: 1100px;
   min-height: 90vh;
   margin: 10px;
-  background-color: white;
+  margin-top: 0;
+  background-color: #f5f5f5;
+  box-shadow: 0 0 10px 5px rgba(0,0,0,0.5);
+  transform: translateY(-20px);
+
 
 
   @media (max-width: 1100px){
@@ -55,6 +65,7 @@ const StyledMainColumn = styled.div`
 `;
 const StyledMainProductColumn = styled.div`
   display: flex;
+  width: 900px;
   flex-direction: row;
 
 
@@ -72,9 +83,56 @@ const StyledMainProductColumn = styled.div`
   
   
 `;
-class April extends Component {
+const StyledMainInfos = styled.div`
+  width: 100%;
+  height: 200px;
+  background-color: white;
+  display: flex;
+
+  @media(max-width: 600px){
+    height: auto;
+    flex-direction: column;
+  }
+`;
+const StyledMainInfo  = styled.div`
+  width: 25%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: #3d98dd;
+  background-color: #f5f5f5;
+  justify-content: center;
+  flex-direction: column;
+
+  svg{
+    font-size: 35px;
+    margin: 0 5px;
+    padding: 20px;
+  }
+  span{
+    margin: 0;
+    color: black;
+    font-weight: 700;
+  }
+
+  p{
+    font-size: 10px;
+    color: gray;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  @media(max-width: 600px){
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  
+`;
+class Agora extends Component {
   state = {
-    shopName:'APRIL', 
+    shopName:'Agora', 
     cart:[],
     nav:[
       {
@@ -92,7 +150,7 @@ class April extends Component {
       {
         title: 'Kontakt',
         url: '/contact'
-      },
+      }
     ],
     footer:[
       {navs:[
@@ -160,32 +218,42 @@ class April extends Component {
     ],
     categories: [
 
-        {title: 'Dla niej',
-         sortValue:'dla niej',
+        {title: 'Kurtki',
+         sortValue:'kurtki',
          subCategories:[
-          {title:'Sneakersy', sortValue:'sneakersy'},
-          {title:'Buty zimowe', sortValue:'buty zimowe'},
-          {title:'Klapki', sortValue:'klapki'}]},
+            {title:'Przeciw deszczowe',sortValue:'przeciw deszczowe'}]},
 
-        {title: 'Dla niego',
-         sortValue:'dla niego',
+        {title: 'Spodnie',
+         sortValue:'spodnnie',
           subCategories:[
-            {title:'Sneakersy', sortValue:'sneakersy'},
-            {title:'Buty zimowe', sortValue:'buty zimowe'},
-            {title:'Klapki', sortValue:'klapki'}]},
+            {title:'Krótkie', sortValue:'krótkie'},
+            {title:'Długie', sortValue:'Długie'},
+            {title:'Robocze', sortValue:'robocze'}]},
 
-        {title: 'Dla dzieci',
-         sortValue:'dla dzieci',
+        {title: 'Inne',
+         sortValue:'inne',
          subCategories:[
-          {title:'Sneakersy', sortValue:'sneakersy'},
-          {title:'Buty zimowe', sortValue:'buty zimowe'},
-          {title:'Klapki', sortValue:'klapki'}]},
-        
+            {title:'Plecaki', sortValue:'plecaki'},
+            {title:'Buty', sortValue:'buty'},
+            {title:'Nordic walking', sortValue:'nordic walking'}]},
 
     ],
     products: [],
     searchQuery:'',
-    images:['https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-6_large.png?format=webp&v=1530129477'],
+    images:[
+      'https://wspinanie.pl/wp-content/uploads/2015/01/1985-Limited-Mountain-Jacket-1.jpg',
+      'https://www.polstor.pl/upload/shop_product_lang/kurtka-meska-columbia-everett-mountain-trademark-jacket-phoenix-blue-dark-compass/variants/full/F17_1683661_489_f.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhVegUoJFbHAf2XhJREUzvJ68ObE855X0g7w&usqp=CAU',
+      'https://www.trekkinn.com/f/13655/136550240/the-north-face-1985-seasonal-mountain-jacket.jpg',
+      'https://media.netgun.pl/cache/f9/7b/f97b6cf63b46b72c5dd63f4588313938.jpg',
+      'https://cdni.llbean.net/is/image/wim/501342_33379_41?hei=1095&wid=950&resMode=sharp2&defaultImage=llbstage/A0211793_2'
+
+
+
+
+
+
+    ],
 
     refresh: 0,
    }
@@ -366,9 +434,9 @@ class April extends Component {
 
     return ( 
       <StyledMainBody>
-      <StyledMainWrapper>
-      <Router history={history}>
-        <HeaderApril
+
+<Router history={history}>
+<HeaderMinera
           shopName = {this.state.shopName}
           cart = {this.state.cart}
           nav = {this.state.nav}
@@ -377,24 +445,54 @@ class April extends Component {
           searchQuery = {this.state.searchQuery}
           changeQuantityOfProduct = {this.changeQuantityOfProduct}
         />
+
+      <StyledMainWrapper>
+          <StyledMainInfos>
+            <StyledMainInfo>
+              <FiTruck/>
+              <span>Darmowa dostawa</span>
+              <p>Darmowa dostawa niezależnie od wielkości zamówienia</p>
+            </StyledMainInfo>
+            <StyledMainInfo>
+              <FiCheckSquare/>
+              <span>Gwarancja 24 miesiące</span>
+              <p>Wszystkie produkty objęte są 24 miesięczną gwarancją</p>
+            </StyledMainInfo>
+            <StyledMainInfo>
+              <FiUserCheck/>
+              <span>Doradztwo</span>
+              <p>Potrzebujesz porady? Napisz do nas!</p>
+            </StyledMainInfo>
+            <StyledMainInfo>
+              <FiTool/>
+              <span>Serwis 24/7</span>
+              <p>Nasz serwis jest do twojej dyspozycji 7 dni w tygodniu!</p>
+            </StyledMainInfo>
+          </StyledMainInfos>
+        
         
           <Switch>
-
+            
             <Route exact path="/">
-              <CategoryLeft
+              <DoubleBanerLeft />
+              <ProductGridwithTag 
                 products = {this.state.products}
               />
               <BanerWide/>
-              <CategoryRight
+              <BigProductsGrid
                 products = {this.state.products}
               />
+              <Counter/>
               <DoubleBanerSmall/>
+              <Carousel 
+                products = {this.state.products}
+              />
+              <Hashtag text='become.superhero'/>
+              <ProductsGrid
+                products = {this.state.products}
+                categories = {this.state.categories}
+              />
              
-              <Hashtag text='most.popular'/>
-              
-              
-
-              
             </Route>
 
             <Route exact path="/category">
@@ -434,7 +532,9 @@ class April extends Component {
               </StyledMainColumn>
             </Route>
 
-         
+          <Route exact path="/blog">
+            
+          </Route>
 
           <Route exact path="/about">
               <About/>
@@ -444,13 +544,6 @@ class April extends Component {
               <Contact />
           </Route>
 
-          
-          
-          
-
-         
-
-
 
         </Switch>
         <Footer
@@ -458,13 +551,14 @@ class April extends Component {
           footer = {this.state.footer}
           shopName = {this.state.shopName}
         />
-      </Router>
+      
       </StyledMainWrapper>
+    </Router>
     </StyledMainBody>
      );
   }
 }
-export default April;
+export default Agora;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////             ABOUT                //////////////////////////////////////////
@@ -481,7 +575,6 @@ const StyledAboutWrapper = styled.div`
     align-items: center;
     position: relative;
     flex-direction: column;
-    align-items: center;
 
     span{
         width: 600px;
@@ -492,25 +585,18 @@ const StyledAboutWrapper = styled.div`
         top: 50%;
         transform: translate(-50%, -50%);
     }
-
-
     section{
         display: flex;
         width: 100%;
         height: 400px;
         align-items: center;
         z-index: 10;
-        justify-content: center;
     }
-    
     img{
-        height: 100%;
-        width: 100%;
+        height: 400px;
         box-shadow: 0 0 10px 5px rgba(0,0,0,0.1);
     }
-
     div{
-       
         width: 50%;
         height: 300px;
         background: rgba(245, 245, 245,1);
@@ -518,18 +604,17 @@ const StyledAboutWrapper = styled.div`
         padding: 20px;
         box-shadow: 0 0 10px 5px rgba(0,0,0,0.1);
     }
-
     h1{
         margin: 10px;
     }
-
     p{
         font-style: italic;
         font-size: 15px;
     }
-
     @media (max-width: 700px){
-        
+        span{
+            display: none;
+        }
         img{
             width: 100%;
             height: auto;
@@ -541,13 +626,8 @@ const StyledAboutWrapper = styled.div`
         div{
             width: 100%;
             height: auto;
-            margin: 0;
-            position: relative;
-        }
-
-        
+        } 
     }
-
     @media (max-width: 900px){
         section{
             flex-direction: column;
@@ -558,11 +638,12 @@ const StyledAboutWrapper = styled.div`
 `;
 const About = () => {
     return (  <>
-    <Hashtag text='about.us'/>
     <StyledAboutWrapper>
+        <span></span>
         <section>
+            <img src='https://cdn.pixabay.com/photo/2019/10/06/22/23/fire-4531325_960_720.jpg' alt='shop'></img>
                 <div>
-                    <h1>Nasza Historia</h1>
+                    <h1>Agora's Lifestyle</h1>
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
                     Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
                     when an unknown printer took a galley of type and scrambled it to make a type specimen book.
@@ -572,17 +653,14 @@ const About = () => {
         <section>
             
                 <div>
-                    <h1>Nasza Misja</h1>
+                    <h1>Ubranie na każde warunki</h1>
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
                     Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
                     when an unknown printer took a galley of type and scrambled it to make a type specimen book.
                   It has survived not only five centuries, but also the leap into electronic  </p>
                 </div>
+                <img src='https://cdn.pixabay.com/photo/2016/03/09/22/49/ice-climbing-1247606_960_720.jpg' alt='shop'></img>
         </section>
-        
-        
-        
-        
     </StyledAboutWrapper>
     
     </>
@@ -599,24 +677,11 @@ const StyledBanerWideWrapper = styled.div`
     flex-grow: 1;
     box-sizing: border-box;
     margin: 20px;
-    background-color: #f5edeb;
+    background-color: transparent;
     height: 300px;
     display: flex;
     over-flow: hidden;
     font-family: 'Inter', sans-serif; 
-    position: relative;
-
-    :hover{
-        img{
-            transform: scale(1.1);
-        }
-    }
-
-    @media (max-width: 700px){
-
-        height: 200px;
-        
-    }
 `;
 const StyledBanerWideText = styled.div`
     width: 50%;
@@ -624,35 +689,19 @@ const StyledBanerWideText = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     padding-left: 100px;
     align-items: flex-start;
-    justify-content: center;
-    color: #dbaab0;
-    =
-    right: 10px;
+    color: black;
 
     h2{
-        margin: 20pxpx;
+        margin: 0px;
         font-weight: 100;
-        color: black;
-
-        
     }
     h1{
         margin: 0px;
-        font-size: 50px;
-        background: black;
-        color: #f5edeb;
-        
+        color: #1582c2;
     }
-
-    a{
-        text-decoration: underline;
-        color: black;
-
-    }
-    
-
     button{
         border: none;
         background-color: #3e3e3e;
@@ -662,76 +711,476 @@ const StyledBanerWideText = styled.div`
         transition: 0.2s;
         cursor: pointer;
     }
-
     button:hover{
-        background-color: #dbaab0;
+        background-color: #f3b518;
     }
-
-
     @media (max-width: 600px){
         padding-left: 20px;
         width: 100%;
         margin: 0;
-        display:none;
 
         a{
             width: 200px;
         }
-    
     }
-
 `;
 const StyledBanerWideImage = styled.div`
     width: 50%;
     height: 100%;
-    cursor: pointer;
-    right: 0;
-    overflow: hidden;
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-
-
 
     img{
-        position: absolute;
         width: auto;
-        height: auto;
-        transition: 0.2s;
+        height: 100%;
     }
-
     @media (max-width: 600px){
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        img{
-            width: 100%;
-            height: auto;
-        }
-        
-
-        
+            display: none;   
     }
 `;
 const BanerWide = () => {
     return ( <>
     <StyledBanerWideWrapper>
         <StyledBanerWideText>
-            <h1>New arrivals</h1>
-            <h2>Nowe stylowe swetry</h2>
-            <Link>Sprawdź →</Link>
-          
+            <h2>LETNIA KOLEKCJA </h2>
+            <h1>DO 30% TANIEJ</h1>
+            <Link to='/product'><button>Sprawdź szczegóły</button></Link>
         </StyledBanerWideText>
-
         <StyledBanerWideImage>
-            <img src="https://officialpsds.com/imageview/rx/3y/rx3y01_large.png?1529098422" alt='baner'></img>
+            <img src="https://www.onlygfx.com/wp-content/uploads/2020/05/sale-stamp-4.png" alt='baner'></img>
         </StyledBanerWideImage>
         
     </StyledBanerWideWrapper>
     
     </> );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////         BIG PRODUCTS GRID              ///////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const StyledBigProductsGridWrapper = styled.div`
+    height: 400px;
+    width: 100%;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+
+    @media(max-width: 1100px){
+        height: auto;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+`;
+const StyledBigProductsGridColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 400px;
+    box-sizing: border-box;
+
+    @media (max-width: 500px){
+        width: 100%;
+        overflow: hidden;
+    }
+`;
+const StyledBigProductsGridRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 50%;
+
+    a{
+        width: 100%;
+        text-decoration: none;
+    }
+`;
+const StyledBigProductsGridThinColumn = styled.div`
+    display: flex;
+    width: 300px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+
+`;
+const StyledBigProductsGridBaner = styled.div`
+    width: 100%;
+    min-height: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+
+    img{
+        height: 100%;
+        width: auto;
+    }
+`;
+const StyledBigProductsGridSmallBaner = styled.div`
+    width: 100%;
+    min-height: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+
+    img{
+    height: auto;
+    width: 100%;
+}
+`;
+const StyledBigProductsGridProduct = styled.div`
+width: 200px;
+height: 100%;
+cursor: pointer;
+transition: 0.2s;
+background-color: white;
+padding: 20px;
+box-sizing: border-box;
+border: 5px solid transparent;
+display: flex;
+flex-direction: column;
+justify-content: center;
+overflow: hidden;
+align-items: center;
+
+img{
+    max-height: 70%;
+    width: 100px;
+    height: auto;
+ 
+}
+h4{
+    margin: 0;
+    margin-top: 5px;
+    color: black;
+    padding-left: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+h5{
+    margin: 0;
+    color: #b0b0b0;
+    padding-left: 10px;
+    font-size: 12px;
+    color: #1582c2;
+}
+
+:hover{
+    transform: scale(1.1);
+    box-shadow: 0 0 10px 5px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+@media(max-width: 700px){
+    margin:0;
+    border: none;
+}
+`;
+const BigProductsGrid = (props) => {
+
+    
+
+    const products1 = [...props.products].splice(0,2);
+    const products2 = [...props.products].splice(2,2);
+    const products3 = [...props.products].splice(4,2);
+
+    if(props.products.length === 0 ){
+        const product = {
+            name: "product",
+            price: '29,99',
+            images: ['https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-6_large.png?format=webp&v=1530129477'],
+            id: 'example'
+        }
+
+        for(let i = 0; i< 2; i++){
+            products1.push(product);
+            products2.push(product);
+            products3.push(product);
+        }
+
+    }
+
+
+    const displayProducts1 = products1.map(product => {
+
+        return(
+                <Link to={"/product/"+product.id} key={product.id}>
+                <StyledBigProductsGridProduct>
+                    
+                        <img src={product.images[0]} alt={product.name}></img>
+                        <h4>{product.name? product.name : 'produkt'}</h4>
+                        <h5>{product.price? product.price : '19.99'} PLN</h5>
+                    
+                </StyledBigProductsGridProduct>
+                </Link>
+        )
+    })
+    const displayProducts2 = products2.map(product => {
+
+        return(
+                <Link to={"/product/"+product.id} key={product.id}>
+                <StyledBigProductsGridProduct>
+                    
+                        <img src={product.images[0]} alt={product.name}></img>
+                        <h4>{product.name}</h4>
+                        <h5>{product.price} PLN</h5>
+                    
+                </StyledBigProductsGridProduct>
+                </Link>
+        )
+    })
+    const displayProducts3 = products3.map(product => {
+
+        return(
+                <Link to={"/product/"+product.id} key={product.id}>
+                <StyledBigProductsGridProduct>
+                    
+                        <img src={product.images[0]} alt={product.name}></img>
+                        <h4>{product.name}</h4>
+                        <h5>{product.price} PLN</h5>
+                    
+                </StyledBigProductsGridProduct>
+                </Link>
+        )
+    })
+
+
+
+    return ( 
+        <StyledBigProductsGridWrapper>
+            <StyledBigProductsGridColumn>
+                <StyledBigProductsGridRow>
+                    {displayProducts1}
+                </StyledBigProductsGridRow>
+                <StyledBigProductsGridRow>
+                    <StyledBigProductsGridSmallBaner>
+                        <img src='https://cdn.pixabay.com/photo/2018/06/01/23/05/glass-3447456_960_720.jpg' alt='baner'></img>
+                    </StyledBigProductsGridSmallBaner>
+                </StyledBigProductsGridRow>
+            </StyledBigProductsGridColumn>
+                
+            <StyledBigProductsGridColumn>
+                <StyledBigProductsGridRow>
+                    {displayProducts2}
+                </StyledBigProductsGridRow>
+                <StyledBigProductsGridRow>
+                    {displayProducts3}
+                </StyledBigProductsGridRow>
+            </StyledBigProductsGridColumn>
+
+            <StyledBigProductsGridThinColumn>
+               <StyledBigProductsGridBaner>
+                   <img src='https://s14761.pcdn.co/wp-content/uploads/2019/01/Waterproof-Jacket-Group-test-MTB-ENDURO-8888-1140x760.jpg' alt='baner'></img>
+               </StyledBigProductsGridBaner>
+            </StyledBigProductsGridThinColumn>
+
+
+        </StyledBigProductsGridWrapper>
+
+     );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////               CAROUSEL                 ///////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const StyledCarouselWrapper = styled.div`
+    width: 100%;
+    box-sizing: border-box;
+    height: 200px;
+    display: flex;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif; 
+    position:relative;
+
+`;
+const StyledCarouselSmall = styled.div`
+    height: 200px;
+    flex-grow: 10px
+    position: relative;
+    overflowX: scroll;
+    display: flex;
+    align-items: center;
+    transition: 0.5s;
+    background: translateX(${props => props.offset || 0 });
+    padding-left: 100px;
+    padding-right: 200px;
+    background: white;
+
+    a{
+        width: 200px;
+        height: 100%;
+        display: flex;
+        flex-direction: column ;
+        text-decoration: none;
+        color: black;
+    }
+
+    @media (max-width: 700px){
+        
+    }
+`;
+const StyledCarouselProduct = styled.div`
+width: 200px;
+height: 100%;
+cursor: pointer;
+transition: 0.2s;
+background-color: white;
+padding: 20px;
+box-sizing: border-box;
+border: 5px solid transparent;
+display: flex;
+flex-direction: column;
+justify-content: center;
+overflow: hidden;
+align-items: center;
+
+img{
+    max-height: 70%;
+    width: 100px;
+    height: auto;
+ 
+}
+h4{
+    margin: 0;
+    margin-top: 5px;
+    color: black;
+    padding-left: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+h5{
+    margin: 0;
+    color: #b0b0b0;
+    padding-left: 10px;
+    font-size: 12px;
+    color: #1582c2;
+}
+
+
+:hover{
+    transform: scale(1.1);
+    box-shadow: 0 0 10px 5px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+@media(max-width: 700px){
+    margin:0;
+    border: none;
+}
+`;
+const StyledCarouselArrow = styled.div`
+    height: 200px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    transition: 0.5s;
+    background: white;
+    z-index: 30;
+    position: absolute;
+    background: #F5F5F5;
+    
+
+    button{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        border:1px solid black;
+    }
+
+    button:hover{
+        border: 1px solid black;
+    }
+
+    @media(max-width: 700px){
+        padding: 0;
+    }
+
+`;
+let offset = 0;
+
+const Carousel = (props) => {
+
+const products = [...props.products].splice(0,20);
+
+if(props.products.length === 0 ){
+    const product = {
+        name: "product",
+        price: '29,99',
+        images: ['https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-6_large.png?format=webp&v=1530129477'],
+        id: 'example'
+    }
+
+    for(let i = 0; i< 10; i++){
+        products.push(product)
+    }
+}
+
+const [refresh, setrefresh] = useState(0);
+
+const moveSlider = (direction) => {
+
+    if(direction === 'left'){
+        offset += 210;
+
+        if(offset >= 210){
+            offset = -((products.length -5) * 210 );
+        }
+         
+       
+    }
+    if(direction === 'right'){
+        offset -= 210;
+        if(offset < -((products.length -5) * 210 )){
+            offset = 0;
+        }
+       
+    }
+    setrefresh(refresh +1)
+}
+
+const displayProducts = products.map(product => {
+
+    return(
+            <Link to={"/product/"+product.id} key={product.id}>
+            <StyledCarouselProduct>
+                
+                    <img src={product.images[0]} alt={product.name}></img>
+                    <h4>{product.name}</h4>
+                    <h5>{product.price} PLN</h5>
+                
+            </StyledCarouselProduct>
+            </Link>
+    )
+})
+
+
+    return ( 
+        <>
+        <StyledCarouselWrapper>
+                <StyledCarouselArrow>
+                    <button onClick={()=>moveSlider('left')}>←</button>
+                </StyledCarouselArrow>
+            <StyledCarouselSmall style={{transform: `translateX(${offset}px)`}}>
+            {displayProducts}
+            </StyledCarouselSmall>
+                <StyledCarouselArrow style={{right: 0}}>
+                    <button onClick={()=>moveSlider('right')}>→</button>
+                </StyledCarouselArrow>
+        </StyledCarouselWrapper>
+
+        </>
+     );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1079,302 +1528,6 @@ const CategoryDisplay = (props) => {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////          CATEGORY LEFT                 ///////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const StyledCategoryLeftWraper = styled.div`
-    width: 100%;
-    height: 500px;
-    display: flex;
-`;
-const StyledCategoryLeftTitle = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 400px;
-    curosor: pointer;
-
-    img{
-        width: auto;
-        height: 300px;
-        box-sizing: border-box;
-        padding: 20px;
-    }
-`;
-const StyledCategoryLeftProducts = styled.div`
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-
-    a{
-    width: 30%;
-    min-width: 150px;
-    height: 48%;
-    max-height: 250px;
-    text-decoration: none;
-    }
-`;
-const StyledCategoryLeftProduct = styled.div`
-width: 100%;
-height: 100%;
-cursor: pointer;
-transition: 0.2s;
-box-sizing: border-box;
-padding: 10px;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: space-evenly;
-
-img{
-    width: 50%;
-    height: auto;
-}
-h4{
-    margin: 0;
-    margin-top: 5px;
-    color: black;
-    padding-left: 10px;
-    transition: 0.2s;
-    text-align: center;
-}
-h5{
-    margin: 0;
-    color: #b0b0b0;
-    padding-left: 10px;
-    text-align: center;
-
-}
-
-:hover{
-    z-index: 10;
-
-    h4{
-        color: pink
-    }
-}
-`;
-const CategoryLeft = (props) => {
-
-    let products = [...props.products];
-    const [sortVal, setsortVal] = useState('dla niego');
-    let categoryArr = []
-    
-
-    
-    const searchForCategory = () => {
-        if(products.length === 0){
-            const product = {
-                name: 'Product',
-                id: 'example',
-                images: ['https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-5_large.png?format=webp&v=1530129458'],
-                price: '19.99'
-            }
-            for(let i = 0; i < 20; i++){
-                categoryArr.push(product)
-            }
-     
-        }else{
-            products.map(product => {
-                if(product.category === sortVal){
-                    categoryArr.push(product)
-                }
-            })
-        }
-        
-       
-    }
-    searchForCategory();
-
-
-    let productsInGrid = categoryArr.splice(0,6).map(product=>{
-      
-            return(
-                <Link to={"/product/"+product.id} key={product.id}>
-                <StyledCategoryLeftProduct>
-                    
-                        <img src={product.images[0]} alt={product.name}></img>
-                        <h4>{product.name}</h4>
-                        <h5>{product.price} PLN</h5>
-                    
-                </StyledCategoryLeftProduct>
-                </Link>
-            )
-        
-        
-    })
-
-
-    return ( 
-        <>
-        <StyledCategoryLeftWraper>
-            <StyledCategoryLeftTitle>
-                <h1>#forher</h1>
-                <img src='https://images.pexels.com/photos/2710131/pexels-photo-2710131.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' alt='category'></img>
-            </StyledCategoryLeftTitle>
-            <StyledCategoryLeftProducts>
-                {productsInGrid}
-            </StyledCategoryLeftProducts>
-        </StyledCategoryLeftWraper>
-
-        </>
-     );
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////          CATEGORY RIGHT                ///////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const StyledCategoryRightWraper = styled.div`
-    width: 100%;
-    height: 500px;
-    display: flex;
-`;
-const StyledCategoryRightTitle = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 400px;
-    curosor: pointer;
-
-    img{
-        width: auto;
-        height: 300px;
-        box-sizing: border-box;
-        padding: 20px;
-    }
-`;
-const StyledCategoryRightProducts = styled.div`
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-
-    a{
-    width: 30%;
-    min-width: 150px;
-    height: 48%;
-    max-height: 250px;
-    text-decoration: none;
-    }
-`;
-const StyledCategoryRightProduct = styled.div`
-width: 100%;
-height: 100%;
-cursor: pointer;
-transition: 0.2s;
-box-sizing: border-box;
-padding: 10px;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: space-evenly;
-
-img{
-    width: 50%;
-    height: auto;
-}
-h4{
-    margin: 0;
-    margin-top: 5px;
-    color: black;
-    padding-left: 10px;
-    transition: 0.2s;
-    text-align: center;
-}
-h5{
-    margin: 0;
-    color: #b0b0b0;
-    padding-left: 10px;
-    text-align: center;
-
-}
-
-:hover{
-    z-index: 10;
-
-    h4{
-        color: pink
-    }
-}
-`;
-const CategoryRight = (props) => {
-
-    let products = [...props.products];
-    const [sortVal, setsortVal] = useState('dla niego');
-    let categoryArr = []
-    
-
-    
-    const searchForCategory = () => {
-        if(products.length === 0){
-            const product = {
-                name: 'Product',
-                id: 'example',
-                images: ['https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-5_large.png?format=webp&v=1530129458'],
-                price: '19.99'
-            }
-            for(let i = 0; i < 20; i++){
-                categoryArr.push(product)
-            }
-     
-        }else{
-            products.map(product => {
-                if(product.category === sortVal){
-                    categoryArr.push(product)
-                }
-            })
-        }
-        
-       
-    }
-    searchForCategory();
-
-
-    let productsInGrid = categoryArr.splice(0,6).map(product=>{
-      
-            return(
-                <Link to={"/product/"+product.id} key={product.id}>
-                <StyledCategoryRightProduct>
-                    
-                        <img src={product.images[0]} alt={product.name}></img>
-                        <h4>{product.name}</h4>
-                        <h5>{product.price} PLN</h5>
-                    
-                </StyledCategoryRightProduct>
-                </Link>
-            )
-        
-        
-    })
-
-
-
-    return ( 
-        <>
-        <StyledCategoryRightWraper>
-            
-            <StyledCategoryRightProducts>
-                {productsInGrid}
-            </StyledCategoryRightProducts>
-
-            <StyledCategoryRightTitle>
-                <h1>#forhim</h1>
-                <img src='https://images.pexels.com/photos/1192609/pexels-photo-1192609.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' alt='category'></img>
-            </StyledCategoryRightTitle>
-        </StyledCategoryRightWraper>
-
-        </>
-     );
-}
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////                SIDEBAR                 ///////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1651,7 +1804,6 @@ const Sidebar = (props) => {
      );
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////                CONTACT                 ///////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1777,8 +1929,235 @@ const Contact = () => {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////              DOUBLE BANER SMALL               //////////////////////////////////
+////////////////////////                COUNTER                 ///////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+const StyledCounterWrapper = styled.div`
+    width: 100%;
+    background-color: #222222;
+    box-sizing: border-box;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+
+
+   h1{
+       margin: 0;
+       text-transform: uppercase;
+       font-size: 20px;
+       margin-top: 20px;
+       color: white;
+   }
+
+
+
+`;
+const StyledCounterRow = styled.div`
+    display: flex;
+    flex-direction: row;
+
+div{
+    margin: 20px;
+    background: black;
+    width: 50px;
+    height: 50px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    color: red;
+
+    span{
+        color: White;
+    }
+}
+
+@media(max-width: 700px){
+    width: 100%;
+    margin: 0px;
+    justify-content: center;
+
+    div{
+        min-width: 50px;
+    }
+
+}
+`;
+let curD = 0;
+let curH = 0;
+let curM = 0;
+let curS = 0;
+
+const Counter = (props) => {
+
+    const [refresh, setrefresh] = useState(0);
+
+
+    const countdown = () => {
+        const now = new Date().getTime();
+        const countDate = new Date('December 17, 2021 00:00:00').getTime();
+        const gap = countDate - now;
+      
+        const second = 1000,
+          minute = second * 60,
+          hour = minute * 60,
+          day = hour * 24;
+      
+        const textDay = Math.floor(gap / day),
+          textHour = Math.floor((gap % day) / hour),
+          textMinute = Math.floor((gap % hour) / minute),
+          textSecond = Math.floor((gap % minute) / second);
+      
+
+
+         curD = textDay;
+         curH = textHour;
+         curM = textMinute;
+         curS = textSecond;
+         
+         setrefresh(refresh + 1)
+
+      };
+      
+      setTimeout(() => {
+        setInterval(countdown, 1000);
+      }, 1000);
+
+  
+      
+
+
+    return ( <>
+        <StyledCounterWrapper>
+            <h1><AiFillTag/> Wietrzenie magazynów <AiFillTag/></h1>
+            <StyledCounterRow>
+                <div><span>{curD}</span>D</div>
+                <div><span>{curH}</span>H</div>
+                <div><span>{curM}</span>M</div>
+                <div><span>{curS}</span>S</div>
+            </StyledCounterRow>
+            
+        </StyledCounterWrapper>
+        
+    
+    </> );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////              DOUBLE BANER LEFT                 //////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+const StyledDoubleBanerLeftWrapper = styled.div`
+    flex-grow: 1;
+    box-sizing: border-box;
+    height: 400px;
+    display: flex;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif; 
+`;
+const StyledDoubleBanerLeftBig = styled.div`
+    width: 50%;
+    height: 100%;
+    background-color: #eeeeee;
+    box-sizing: border-box;
+    display: flex;
+`;
+const StyledDoubleBanerLeftImage = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    img{
+        width: 100%;
+        height: auto;
+    }
+`;
+const StyledDoubleBanerLeftText = styled.div`
+    width: 100%;
+    height: 100%;
+    padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    h2{
+        margin: 0;
+        font-size: 25px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+    p{
+        font-size: 11px;
+        color: gray;
+        padding: 20%;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    h3{
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        color: #434c7e;
+    }
+    a{
+        cursor: pointer;
+        padding: 15px 10px;
+        font-size: 12px;
+        font-weight: 700;
+        color: black;
+        text-decoration: none;
+    }
+    
+    @media (max-width: 700px){
+        padding: 5px;
+    }
+
+    
+`;
+const DoubleBanerLeft = () => {
+    return ( 
+        <>
+        <StyledDoubleBanerLeftWrapper>
+            <StyledDoubleBanerLeftBig>
+                <StyledDoubleBanerLeftText>
+                    <h2>Kurtki Prosto</h2>
+                    <p>Lorem Ipsum is simply dummy text of the printing
+                         and typesetting industry. Lorem Ipsum has been the industry's 
+                         standard dummy text ever since the 1500s, when an unknown printer 
+                         took a galley</p>
+
+                    <h3>NOWA KOLEKCJA</h3>
+                    <Link to='/category'>Zobacz więcej →</Link>
+                </StyledDoubleBanerLeftText>
+                
+            </StyledDoubleBanerLeftBig>
+            <StyledDoubleBanerLeftBig>
+                <StyledDoubleBanerLeftImage>
+                    <img src='https://sportstylestory.com/gfx/big/prosto_kurtka_meska_prosto_inuit_2_black_75761.jpg' alt='baner'></img>
+                </StyledDoubleBanerLeftImage>
+            </StyledDoubleBanerLeftBig>
+        
+        </StyledDoubleBanerLeftWrapper>
+
+        </>
+     );
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////              DOUBLE BANER SMALL                //////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 const StyledDoubleBanerSmallWrapper = styled.div`
     flex-grow: 1;
@@ -1817,8 +2196,8 @@ const StyledDoubleBanerSmallBig = styled.div`
             left: 0;
             right: auto;
         }
-
     }
+
 `;
 const StyledDoubleBanerSmallImage = styled.div`
     width: 50%;
@@ -1835,7 +2214,8 @@ const StyledDoubleBanerSmallImage = styled.div`
 
     
     img{
-        width: 100%;
+        width: auto;
+        max-height: 100%;
 
         
     }
@@ -1888,22 +2268,25 @@ const DoubleBanerSmall = () => {
         <StyledDoubleBanerSmallWrapper>
             <StyledDoubleBanerSmallBig>
                 <StyledDoubleBanerSmallImage className='styledImage'>
-                    <img src='https://freepngimg.com/thumb/shoes/28530-3-nike-shoes-transparent.png' alt='product'></img>
+                    <img src='https://www.evertrek.pl/userdata/public/gfx/34178/1.jpg' alt='product'></img>
                 </StyledDoubleBanerSmallImage>
                 <StyledDoubleBanerSmallText className='styledText'>
-                    <h2>NIKE ROSHE v2 </h2>
-                    <h3>TERAZ 30% TANIEJ</h3>
+                    <h2>Buty treckingowe</h2>
+                    <h3>KAITEKI</h3>
+                    
                 </StyledDoubleBanerSmallText>
             </StyledDoubleBanerSmallBig>
             <StyledDoubleBanerSmallBig>
                 <StyledDoubleBanerSmallImage className='styledImage'>
-                    <img src='https://www.nicepng.com/png/full/945-9457426_sneakers-png-photo-nike-shoes-com-2018-new.png' alt='product'></img>
+                    <img src='https://outdoorlive.pl/wp-content/uploads/2020/07/Salewa_Alptrek_5510_Backpack_premium_navy.png' alt='product'></img>
                 </StyledDoubleBanerSmallImage>
                 <StyledDoubleBanerSmallText className='styledText'>
-                    <h2>NIKE  Xt - 2 </h2>
-                    <h3>TERAZ 30% TANIEJ</h3>   
+                    <h2>Plecaki turystyczne </h2>
+                    <h3>SALEVA</h3>
+                    
                 </StyledDoubleBanerSmallText>
             </StyledDoubleBanerSmallBig>
+           
         </StyledDoubleBanerSmallWrapper>
 
         </>
@@ -1953,6 +2336,7 @@ const Footer = (props) => {
     </> );
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////                   HASHTAG                      /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1983,29 +2367,20 @@ const Hashtag = (props) => {
     
     </> );
 }
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////                    HEADER                      /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 const StyledHeaderWrapper = styled.div`
     width: 100%;
-    height: 400px;
+    height: 500px;
     font-family: 'Inter', sans-serif; 
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    position: relative;
-    overflow: hidden;
+    flex-direction: column;
 
     a{
         color:black;
         text-decoration: none;
-    }
-
-    img{
-        align-self: center;
     }
 
     @media (max-width: 1000px){
@@ -2016,35 +2391,48 @@ const StyledHeaderWrapper = styled.div`
    
 `;
 const  StyledHeaderLogo = styled.div`
-    width: auto;
+    width: 100%;
     height: 100%;
     display: flex;
+    align-items: center;
     font-weight: 700;
-    padding-left: 50px;
-    padding-right: 100px;
-    font-size: 30px;
-    z-index: 2;
-    display: flex;
+    background: #20232b;
+    background-image:  url('https://www.pngall.com/wp-content/uploads/8/Scratch-Transparent.png');
+    background-size: cover;
+    justify-content: center;
+    font-size: 50px;
+    font-family: Impact, fantasy;
     
-    h1{
-        margin: 0;
-        padding: 50px;
-        padding-left: 0;
+    
+    a{
+        color: black;
+        text-shadow: 0 0 5px gray;
     }
 
-    @media (max-width: 400px){
+    img{
+        width: 500px;
+        height: auto;
+    }
+
+    @media (max-width: 600px){
         padding: 0;
-        padding-left: 10px;
+
+        img{
+            max-width: 100%;
+            height: auto;
+        }
+        
     }
 `;
 const StyledHeaderNav = styled.div`
     display: flex;
-    height: 100%;
-    align-items: flex-end;
+    flex-grow: 1;
+    height: 50px;
+    align-items: center;
     justify-content: space-between;
-    position: relative;
-    font-weight: 700;
-    
+    position: sticky;
+    top: 0;
+    background: #20222d;    
 
 
     ul{
@@ -2058,42 +2446,18 @@ const StyledHeaderNav = styled.div`
         font-weight: 300px;
         cursor: pointer;
         margin: 0 5px;
-        transition: 0.5s;
+        transition: 0.2s;
         position: relative;
-        overflow: hidden;
-        
-    }
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 13px;
 
-    li::before{
-        content: '';
-        width: 100%;
-        height: 2px;
-        background: black;
-        position: absolute;
-        left: -100%;
-        bottom: 0;
-        transition: 0.5s;
     }
-    li::after{
-        content: '';
-        width: 100%;
-        height: 2px;
-        background: black;
-        position: absolute;
-        right: -100%;
-        top: 0;
-        transition: 0.5s;
+    a{
+        color: white;
     }
-
     li:hover{
-
-        ::before{
-            left: 0;
-        }
-
-        ::after{
-            right: 0;
-        }
+        transform: scale(1.2)
     }
     img{
         height: 30px;
@@ -2105,8 +2469,8 @@ const StyledHeaderNav = styled.div`
 
         ul{
             flex-direction: column;
-            position: fixed;
-            top: 300px;
+            position: absolute;
+            top: 100px;
             right: 1000px;
             background: black;
             color: white;
@@ -2163,8 +2527,8 @@ const StyledHeaderCart = styled.div`
     max-height: 300px;
     box-shadow: 0 0 10px 10px rgba(0,0,0,0.2);
     background: white;
-    position: fixed;
-    top: 350px;
+    position: absolute;
+    top: 100px;
     right: 0;
     display: ${props => props.show? 'flex': 'none'};
     flex-direction: column;
@@ -2194,12 +2558,6 @@ const StyledHeaderCart = styled.div`
     p{
         font-size: 15px;
     }
-
-    @media (max-width: 700px){
-        position: ${props => props.show? 'fixed': 'absolute'};
-    }
-
-
 `;
 const StyledHeaderShadow = styled.div`
  position: absolute;
@@ -2236,17 +2594,14 @@ const StyledHeaderProduct = styled.div`
     }
     a{
         height: auto;
+        
         margin: 0;
         font-size: 12px;
         display: flex;
         align-items: center;
         padding: 0;
     }
-    img{
-        height: auto;
-        max-height: 50px;
-        width: 50px;
-    }
+
     a:hover{
         background: transparent;
         color: black;
@@ -2276,23 +2631,21 @@ const StyledHeaderProduct = styled.div`
 const StyledHeaderSubWrapper = styled.div`
     display: flex;
     height: 100%;
-    align-items: flex-end;
+    align-items: center;
     cursor: pointer;
-    padding-bottom: 10px;
 
     input{
         display: none;
         position: absolute;
         right: 100px;
-        top: 0px;
+        top: 30px;
         padding: 10px;
-        width: 100px;
         
     }
 
     @media (max-width: 800px){
         a{
-            color: black !important;
+            color: white !important;
             width: auto !important;
         }
     }
@@ -2315,22 +2668,7 @@ const StyledHeaderMobileMenuBtn = styled.div`
         display: block;
     }
 `;
-const StyledHeaderDecoration = styled.div`
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0.2;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-
-    img{
-        width: 100%;
-        height: auto;
-    }
-`;
-const HeaderApril = (props) => {
+const HeaderMinera = (props) => {
 
 const [isCartShowed, setisCartShowed] = useState(false);
 let quantity = 0;
@@ -2400,50 +2738,46 @@ const displayProductsInCart = props.cart.map(product => {
     return ( 
         <>
         <StyledHeaderWrapper>
-            <StyledHeaderDecoration>
-                <img src='https://cdn.pixabay.com/photo/2017/02/24/21/00/door-2096367_960_720.jpg' alt=''></img>
-            </StyledHeaderDecoration>
-            <StyledHeaderLogo>
-                <h1><Link to='/'>{props.shopName}</Link></h1>
-            </StyledHeaderLogo>
+            
             <StyledHeaderNav>
                 <ul id='menu'>
                     {displayNav}
                 </ul>
-            </StyledHeaderNav>
                 
-            <StyledHeaderNav>
                 <StyledHeaderSubWrapper style={{fontSize: '30px', marginRight: '10px', marginLeft: '5px'}}>
-                   
-
                     <StyledHeaderMobileMenuBtn>
                         <FiMenu style={{fontSize: '25px', marginRight: '10px', marginLeft: '5px'}} onClick={showMobileMenu}/> 
                     </StyledHeaderMobileMenuBtn>  
                     
-                    <div style={{height: '100%',display: 'flex', alignItems: 'flex-end', alignSelf: 'flex-end'}}>
+                    <div style={{height: '100%',display: 'flex', alignItems: 'center', alignSelf: 'flex-end'}}>
                         <input  id='searchbar' onChange={(event) => props.setSearchQuery(event.target.value)} value={props.searchQuery} placeholder="wyszukaj"></input>
                         <Link to='/category'><FiSearch onClick={showSearchBar} style={{fontSize: '25px', marginRight: '10px', marginLeft: '5px'}}/></Link>
                     </div>
                 
                     <StyledHeaderCartIcon onClick={showCart}>
-                        <FiShoppingCart style={{fontSize: '25px', marginRight: '20px', cursor:'pointer'}} ></FiShoppingCart>
+                        <FiShoppingCart style={{fontSize: '25px', marginRight: '20px', cursor:'pointer', color: 'white'}} ></FiShoppingCart>
                         {quantity>0? <StyledHeaderCartNoti>{quantity}</StyledHeaderCartNoti>: null}
                     </StyledHeaderCartIcon>
               
-                    <StyledHeaderShadow onClick={showCart} show={isCartShowed}></StyledHeaderShadow>
-
+                    <StyledHeaderShadow onClick={showCart} show={isCartShowed}>
+                </StyledHeaderShadow>
                     <StyledHeaderCart show={isCartShowed}>
                     {displayProductsInCart}
                     {props.cart.length === 0? <p>Twój koszyk jest pusty</p>: null}
                     {props.cart.length !== 0? <a href="http://ckz.ec-at.com/">Przejdz do koszyka →</a>: null}
                 </StyledHeaderCart>
+
+
                 </StyledHeaderSubWrapper> 
             </StyledHeaderNav>
+            <StyledHeaderLogo>
+                {/* <h1><Link to='/'>{props.shopName}</Link></h1> */}
+                <img src='https://hurtpiwa.pl/wp-content/uploads/2019/11/bluemoonlogotransparent.png' alt='Logo'></img>
+            </StyledHeaderLogo>
         </StyledHeaderWrapper>
         </>
      );
-};
-
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////             PRODUCT DESCRIPTION                /////////////////////////////////
@@ -2599,7 +2933,8 @@ const ProductDescription = (props) => {
         </StyledProductDescriptionWrapper>
         </>
      );
-}
+} 
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////               PRODUCT PROPS                    /////////////////////////////////
@@ -2716,6 +3051,329 @@ const ProductProps = (props) => {
             <button onClick={()=>props.addToCart(currentProduct)}>Dodaj do koszyka</button>
         </StyledProductPropsWrapper>
 
+        </>
+     );
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////          PRODUCTS GRID           //////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const StyledProductsGridWrapper = styled.div`
+    margin: 20px;
+    flex-grow: 1;
+    height: auto;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+const StyledProductsGridNav = styled.div`
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button, button::after {
+        width: 150px;
+        height: 50px;
+        font-size: 12px;
+        font-family: 'Bebas Neue', cursive;
+        background: linear-gradient(45deg, transparent 5%, #FF013C 5%);
+        border: 0;
+        color: #fff;
+        letter-spacing: 3px;
+        box-shadow: 6px 0px 0px #00E6F6;
+        outline: transparent;
+        position: relative;
+        margin: 20px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      button:hover{
+          transform: scale(1.1);
+      }
+      
+     
+    
+      
+     
+`;
+const StyledProductsGridContent = styled.div`
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: space-evenly;
+    justify-content: space-evenly;
+
+    a{
+        color: black;
+        text-decoration: none;
+    }
+`;
+const StyledProductsGridProduct = styled.div`
+width: 200px;
+height: 200px;
+cursor: pointer;
+transition: 0.2s;
+background-color: white;
+box-sizing: border-box;
+padding: 10px;
+display: flex;
+flex-direction: column;
+justify-content: space-evenly;
+
+
+img{
+    width: 100%;
+    height: auto;
+}
+h4{
+    margin: 0;
+    margin-top: 5px;
+    color: black;
+    padding-left: 10px;
+}
+h5{
+    margin: 0;
+    color: #b0b0b0;
+    padding-left: 10px;
+
+}
+
+:hover{
+    transform: scale(1.1);
+    box-shadow: 0 0 10px 5px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+`;
+const ProductsGrid = (props) => {
+
+    let products = [...props.products];
+    const [sortVal, setsortVal] = useState('dla niego');
+    let categoryArr = []
+    
+
+    
+    const searchForCategory = () => {
+        products.map(product => {
+            if(product.category === sortVal){
+                categoryArr.push(product)
+            }
+        })
+        categoryArr.splice(4,categoryArr.length-3)
+    }
+    searchForCategory();
+
+    let productsInGrid = categoryArr.map(product=>{
+      
+            return(
+                <Link to={"/product/"+product.id} key={product.id}>
+                <StyledProductsGridProduct>
+                    
+                        <img src={product.images[0]} alt={product.name}></img>
+                        <h4>{product.name}</h4>
+                        <h5>{product.price} PLN</h5>
+                    
+                </StyledProductsGridProduct>
+                </Link>
+            )
+        
+        
+    })
+
+
+    const setSortValue = (val) =>  {
+        setsortVal(val);
+    }
+
+    let categories = props.categories.slice(0,3)
+    const displayCategories = categories.map(category => {
+        for(let i = 0; i< 2; i++){
+            return <button key={category.sortValue} onClick={() => setSortValue(category.sortValue)}>{category.title}</button>
+        }
+        
+    })
+    
+
+
+    return ( 
+        <>
+        <StyledProductsGridWrapper>
+            <StyledProductsGridNav>
+                {displayCategories}
+                {/* <button onClick={() => setSortValue('Krzesło')}>Krzesła</button>
+                <button  onClick={() => setSortValue('Kanapy')}  >Kanapy</button>
+                <button onClick={() => setSortValue('Inne')}  >Inne</button> */}
+            </StyledProductsGridNav>
+            <StyledProductsGridContent>
+
+                    {productsInGrid}
+                
+            </StyledProductsGridContent>
+
+
+        </StyledProductsGridWrapper>
+        </>
+     );
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////          PRODUCTS GRID WITH TAG          //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const StyledProductGridWithTagWrapper = styled.div`
+    width: 100%;
+    height: auto;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+const StyledProductGridWithTagContent = styled.div`
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: space-evenly;
+    justify-content: space-evenly;
+
+    a{
+        color: black;
+        text-decoration: none;
+        width: 25%;
+    }
+`;
+const StyledProductGridWithTagProduct = styled.div`
+width: 100%;
+height: 250px;
+cursor: pointer;
+transition: 0.2s;
+background-color: white;
+box-sizing: border-box;
+padding: 20px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+
+img{
+    width: auto;
+    height: 200px;
+}
+h4{
+    margin: 0;
+    margin-top: 5px;
+    color: black;
+    padding-left: 10px;
+}
+h5{
+    margin: 0;
+    margin-bottom: 10px;
+    color: #b0b0b0;
+    padding-left: 10px;
+
+}
+
+:hover{
+    transform: scale(1.1);
+    box-shadow: 0 0 10px 5px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+`;
+const StyledProductGridWithTagTag = styled.div`
+    width: 25%;
+    height: 250px;
+    cursor: pointer;
+    transition: 0.2s;
+    background-color: #222222;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #1582c2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+    svg{
+        font-size: 40px;
+    }
+
+    h1{
+        color: white;
+        text-transform: uppercase;
+        margin: 5px;
+        font-size: 20px;
+    }
+    p{
+        font-size: 13px;
+        color: gray;
+        text-align: center;
+        margin: 0;
+    }
+`;
+const ProductGridwithTag = (props) => {
+
+    let products = [...props.products];
+    let productsArr = []
+
+    if(products.length > 0){
+        productsArr = products.slice(0,3);
+    }else{
+        const product = {
+            name: "product",
+            price: '29,99',
+            images: ['https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-6_large.png?format=webp&v=1530129477'],
+            id: 'example'
+        }
+
+        for(let i = 0; i< 3; i++){
+            productsArr.push(product)
+        }
+    }
+    
+    
+    
+    
+    let productsInGrid = productsArr.map(product=>{
+      
+            return(
+                <Link to={"/product/"+product.id} key={product.id}>
+                <StyledProductGridWithTagProduct>
+                    
+                        <img src={product.images[0]} alt={product.name}></img>
+                        <h4>{product.name}</h4>
+                        <h5>{product.price} PLN</h5>
+                    
+                </StyledProductGridWithTagProduct>
+                </Link>
+            )
+        
+        
+    })
+    
+    
+
+
+    return ( 
+        <>
+        <StyledProductGridWithTagWrapper>
+            <StyledProductGridWithTagContent> 
+                <StyledProductGridWithTagTag>
+                    <FaRegStar/>
+                    <h1>Popularne</h1>
+                    <p>Najczęściej kupowane produkty</p>
+                </StyledProductGridWithTagTag>
+                    {productsInGrid}
+            </StyledProductGridWithTagContent>
+        </StyledProductGridWithTagWrapper>
         </>
      );
 }
