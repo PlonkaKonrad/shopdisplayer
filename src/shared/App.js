@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import routes from '../shared/routes'
+import routes from './routes'
 import {Route} from 'react-router-dom';
 import Home from './Home';
 import styled from 'styled-components';
 
-import TopBar from './TopBar';
 // import MainPage from './CREATOR/COMPONENTS/MainPage/MainPage';
 // import Step1 from './CREATOR/COMPONENTS/Step1/Step1';
 // import Step2 from './CREATOR/COMPONENTS/Step2/Step2';
@@ -40,14 +39,6 @@ class App extends Component {
         return ( 
             <>
                 <StyledWrapper>
-                    <TopBar 
-                        chosenHomeTemplate={this.state.chosenHomeTemplate}
-                        chosenCategoryTemplate={this.state.chosenCategoryTemplate}
-                        chosenProductTemplate={this.state.chosenProductTemplate}
-                        shopID = {this.state.shopID}
-                        shopUrl = {this.state.shopUrl}
-                    />
-
                 {/* ROUTING */}
                     {routes.map(({path, exact, component:C, ...rest })=>(
                         <Route

@@ -26,33 +26,35 @@ app.use(express.json())
 
 
 
-app.get('/apiSetTemplate/:shopID/:type/:template', (req,res) => {
 
-    fs.readFile(`./src/shared/CONTENT/${req.params.type}/${req.params.template}/App.js`,'utf-8', (error, data) => {
-        if(error) {
-            throw error;
-        }
+app.post('/uploadTemplateString/:page', function (req,res, next) {
 
-    try{
+    
+    if(req.params.page === 'home'){
+        fs.writeFile("./src/shared/Home.js", req.body.template, (err)=>{
+            if(err) console.log(err)
+            else res.send('Successfuly updeted home page!')
+            console.log('Successfuly updeted home page!')
 
-            fetch('http://localhost:8000/uploadTemplateString',{
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({"template": data})
-            }).then(res => console.log(res.status))
-
-
+        })
+    }else if( req.params.page === 'category'){
+        fs.writeFile("./src/shared/Categry.js", req.body.template, (err)=>{
+            if(err) console.log(err)
+            else res.send('Successfuly updeted category page!')
+            console.log('Successfuly updeted category page!')
+        })
+    }else if (req.params.page === 'product') {
+        fs.writeFile("./src/shared/Product.js", req.body.template, (err)=>{
+            if(err) console.log(err)
+            else res.send('Successfuly updeted product page!')
+            console.log('Successfuly updeted product page!')
+        })
+    }else{
+        res.send('Wrong parameter')
     }
-    catch(err){
-        console.log(err)
-    }
 
-    })
-
-    res.send('200')
 })
+
 
 
 
@@ -91,6 +93,6 @@ res.send(`
 
 })
 
-app.listen(3000, () =>{
-    console.log('server run  on 3000')
+app.listen(4000, () =>{
+    console.log('server run  on 4000')
 })
