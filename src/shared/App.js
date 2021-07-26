@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import routes from './routes'
 import {Route} from 'react-router-dom';
-import Home from './Home';
 import styled from 'styled-components';
 
 // import MainPage from './CREATOR/COMPONENTS/MainPage/MainPage';
@@ -15,8 +14,6 @@ const StyledWrapper = styled.div`
 width:100%;
 height: 100vh;
 overflow: hidden;
-background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
-background-image: url(https://manager.ec-at.com/resources/img/bg/2.jpg);
 background-repeat: no-repeat;
 background-size: cover;
 font-family: var(--font);
@@ -26,15 +23,7 @@ flex-direction: column;
 
 
 class App extends Component {
-    state = { 
-        shopID: 'dn2u383237bfy4328by43f4',
-        shopUrl: 'http://localhost:8000',
-        shopData:{}, 
-        backgroundImage: 'url(https://manager.ec-at.com/resources/img/bg/2.jpg)',
-        chosenHomeTemplate: 'Cactac',
-        chosenCategoryTemplate: 'Minera',
-        chosenProductTemplate: 'Minera',
-     }
+
     render() { 
         return ( 
             <>
